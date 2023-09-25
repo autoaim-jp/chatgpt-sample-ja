@@ -1,0 +1,21 @@
+{
+  "id": "chatcmpl-7zpb5GpKbXX8wZPfvOJgIM6DibYYm",
+  "object": "chat.completion",
+  "created": 1694970703,
+  "model": "gpt-3.5-turbo-0613",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "課題は取り組むべき課題や目標を指し、解決方法が明確である場合が多いです。一方、問題は解決方法や結果が必ずしも明確ではなく、困難や障害として立ちふさがるものと言えます。$$問題は課題の一部とも言え、解決方法を見つけるための課題として取り組むべきです。"
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 71,
+    "completion_tokens": 144,
+    "total_tokens": 215
+  }
+}

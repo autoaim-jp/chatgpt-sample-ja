@@ -1,0 +1,21 @@
+{
+  "id": "chatcmpl-7zpZ7PuFGcKADlJkCFiKMbYCAXYDz",
+  "object": "chat.completion",
+  "created": 1694970581,
+  "model": "gpt-3.5-turbo-0613",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "リスクマネジメントは、将来起こり得る潜在的なリスクを特定し、そのリスクに対する対策を講じるプロセスです。一方、クライシスマネジメントは、既に発生した危機的状況に対して的確に対応することを目的としています。リスクマネジメントは予防的なアプローチを、クライシスマネジメントは事後的な対応を重視しています。リスクマネジメントはリスクの予測と回避、クライシスマネジメントは危機対応です。$$"
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 75,
+    "completion_tokens": 202,
+    "total_tokens": 277
+  }
+}

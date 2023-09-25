@@ -1,0 +1,133 @@
+[
+  {
+    index: 0,
+    message: {
+      role: 'assistant',
+      content: '以下は、Node.jsを使用してIMAPサーバからメールを取得し、PostgreSQLに保存するソースコードの例です。\n' +
+        '\n' +
+        '```javascript\n' +
+        "const Imap = require('imap');\n" +
+        "const { client } = require('pg');\n" +
+        '\n' +
+        '// PostgreSQL接続情報\n' +
+        'const pgConfig = {\n' +
+        "  user: 'your_username',\n" +
+        "  host: 'your_host',\n" +
+        "  database: 'your_database',\n" +
+        "  password: 'your_password',\n" +
+        "  port: 'your_port'\n" +
+        '};\n' +
+        '\n' +
+        '// IMAP接続情報\n' +
+        'const imapConfig = {\n' +
+        "  user: 'your_username',\n" +
+        "  password: 'your_password',\n" +
+        "  host: 'your_imap_host',\n" +
+        '  port: 993,\n' +
+        '  tls: true\n' +
+        '};\n' +
+        '\n' +
+        '// PostgreSQLクライアントを作成\n' +
+        'const pgClient = new client(pgConfig);\n' +
+        '\n' +
+        '// PostgreSQLに接続\n' +
+        'pgClient.connect();\n' +
+        '\n' +
+        '// IMAPサーバに接続\n' +
+        'const imap = new Imap(imapConfig);\n' +
+        '\n' +
+        '// メールを処理する関数\n' +
+        'const processMail = (mail) => {\n' +
+        '  // ここにメールの処理ロジックを実装してください\n' +
+        '  // 例えば、メールの送信者、件名、本文などを取得して、PostgreSQLに保存するようにします\n' +
+        '};\n' +
+        '\n' +
+        '// メールボックスを開く\n' +
+        'const openInbox = () => {\n' +
+        '  return new Promise((resolve, reject) => {\n' +
+        "    imap.openBox('INBOX', true, (err, mailbox) => {\n" +
+        '      if (err) {\n' +
+        '        reject(err);\n' +
+        '        return;\n' +
+        '      }\n' +
+        '\n' +
+        '      resolve(mailbox);\n' +
+        '    });\n' +
+        '  });\n' +
+        '};\n' +
+        '\n' +
+        '// メールを取得して処理する関数\n' +
+        'const fetchAndProcessMail = (mailbox) => {\n' +
+        '  return new Promise((resolve, reject) => {\n' +
+        '    const f = imap.seq.fetch(`${mailbox.messages.total}:${mailbox.messages.total}`, {\n' +
+        "      bodies: '',\n" +
+        '      struct: true\n' +
+        '    });\n' +
+        '\n' +
+        "    f.on('message', (msg, seqno) => {\n" +
+        "      msg.on('body', (stream, info) => {\n" +
+        "        let buffer = '';\n" +
+        '\n' +
+        "        stream.on('data', (chunk) => {\n" +
+        "          buffer += chunk.toString('utf8');\n" +
+        '        });\n' +
+        '\n' +
+        "        stream.on('end', () => {\n" +
+        '          const mail = Imap.parseHeader(buffer);\n' +
+        '          processMail(mail);\n' +
+        '\n' +
+        '          resolve();\n' +
+        '        });\n' +
+        '      });\n' +
+        '\n' +
+        "      msg.once('end', () => {\n" +
+        "        imap.seq.move(seqno, 'INBOX.processed', (err) => {\n" +
+        '          if (err) {\n' +
+        '            reject(err);\n' +
+        '            return;\n' +
+        '          }\n' +
+        '        });\n' +
+        '      });\n' +
+        '    });\n' +
+        '\n' +
+        "    f.once('error', (err) => {\n" +
+        '      reject(err);\n' +
+        '    });\n' +
+        '\n' +
+        "    f.once('end', () => {\n" +
+        '      imap.closeBox(true, () => {\n' +
+        '        resolve();\n' +
+        '      });\n' +
+        '    });\n' +
+        '  });\n' +
+        '};\n' +
+        '\n' +
+        '// メールを取得して処理を実行\n' +
+        "imap.once('ready', () => {\n" +
+        '  openInbox()\n' +
+        '    .then(fetchAndProcessMail)\n' +
+        '    .then(() => {\n' +
+        '      imap.end();\n' +
+        '      pgClient.end();\n' +
+        '    })\n' +
+        '    .catch((err) => {\n' +
+        '      console.error(err);\n' +
+        '      pgClient.end();\n' +
+        '      imap.end();\n' +
+        '    });\n' +
+        '});\n' +
+        '\n' +
+        '// IMAPサーバに接続\n' +
+        'imap.connect();\n' +
+        '```\n' +
+        '\n' +
+        '上記のコードでは、pgConfig変数とimapConfig変数にそれぞれPostgreSQLとIMAPサーバの接続情報を設定しています。processMail関数内には、メールを処理するカスタムロジックを実装する必要があります。\n' +
+        '\n' +
+        'このコードはIMAPサーバから最新のメールを取得し、PostgreSQLに保存するだけです。必要に応じて、カスタムロジックを追加して、メールの送信者、件名、本文などを取得し、それらをPostgreSQLに保存するように変更してください。また、適切なエラーハンドリングやエラーメッセージの追加もお忘れなく。\n' +
+        '\n' +
+        'また、このコードは一度の実行で最新のメールのみを処理しますが、定期的な実行を実現するために、タイマーイベントなどを使用することもできます。'
+    },
+    finish_reason: 'stop'
+  }
+]
+
